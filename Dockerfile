@@ -1,15 +1,27 @@
-# Build stage with Java 17
-FROM maven:3.8.6-openjdk-17-slim AS build
-
+# Build stage
+FROM maven:3.9.5-eclipse-temurin-21-alpine AS build
 WORKDIR /app
-COPY . .
 
-# Build the Java project
-RUN mvn clean  -DskipTests
+# Copy only the POM first to cache dependencies
+COPY pom.xml .
+# Try to download dependencies (will fail but populate local repo)
+RUN mvn dependency:go-offline -Dmaven.repo.local=/app/.m2/repository || true
 
-# Runtime stage (optional)
-FROM openjdk:17-slim
+# Copy all source files
+COPY src ./src
+
+# Build the application (using offline mode)
+RUN mvn -o clean package -DskipTests
+
+# Runtime stage
+FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app
-COPY --from=build /app/target/*.jar /app/twig.jar
 
-CMD ["java", "-jar", "/app/twig.jar"]
+# Copy the built jar from the build stage
+COPY --from=build /app/target/twig-*-core.jar app.jar
+
+# Expose port (adjust as needed)
+EXPOSE 8080
+
+# Set the entrypoint
+ENTRYPOINT ["java", "-jar", "app.jar"]

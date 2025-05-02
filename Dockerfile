@@ -5,7 +5,7 @@ WORKDIR /app
 COPY . .
 
 # Build the Java project
-RUN mvn clean package -DskipTests
+RUN mvn clean  -DskipTests
 
 # Runtime stage (optional)
 FROM openjdk:17-slim

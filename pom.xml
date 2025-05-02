@@ -1,120 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     
     <groupId>j4np</groupId>
     <artifactId>twig</artifactId>
-    <version>${revision}</version>
+    <version>0.0.4</version>
     <packaging>jar</packaging>
-
-    <dependencies>
-      <dependency>
-        <groupId>j4np</groupId>
-        <artifactId>j4np-ui</artifactId>
-        <version>${version}</version>
-      </dependency>
-    </dependencies>
-
-    <repositories>
-      <repository>
-	<id>clas12-maven</id>
-	<url>https://clasweb.jlab.org/clas12maven/j4np/maven</url>
-      </repository>
-    </repositories>
-
-    <distributionManagement>
-      <repository>
-	<id>github</id>
-	<name>Twig Distribution</name>
-        <url>https://maven.pkg.github.com/gavalian/twig</url>
-      </repository>
-    </distributionManagement>
-    
-    <build>
-      <extensions>
-        <extension>
-          <groupId>org.apache.maven.wagon</groupId>
-          <artifactId>wagon-ssh-external</artifactId>
-          <version>2.8</version>
-        </extension>
-      </extensions>
-
-<!--<build>-->
-  <plugins>
-    <plugin>
-      <groupId>org.apache.maven.plugins</groupId>
-      <artifactId>maven-shade-plugin</artifactId>
-      <version>3.4.1</version>
-      <executions>
-        <execution>
-          <phase>package</phase>
-          <goals>
-            <goal>shade</goal>
-          </goals>
-          <configuration>
-            <!-- Optionally attach as a classifier (default is "shaded") -->
-            <shadedArtifactAttached>true</shadedArtifactAttached>
-            <shadedClassifierName>core</shadedClassifierName>
-            <transformers>
-              <!-- This transformer sets your main class -->
-              <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                <mainClass>twig.demo.RunDemo</mainClass>
-              </transformer>
-            </transformers>
-          </configuration>
-        </execution>
-      </executions>
-    </plugin>
-  </plugins>
-</build>
-
-
-<!--
-      <plugins>
-        <plugin>
-          <artifactId>maven-assembly-plugin</artifactId>
-          <version>2.6</version>
-          <configuration>
-	    <archive>
-              <manifest>
-		<addClasspath>true</addClasspath>
-		<mainClass>twig.demo.RunDemo</mainClass>
-              </manifest>
-            </archive>
-	    <finalName>twig-${revision}-core</finalName>
-	    <appendAssemblyId>false</appendAssemblyId>
-            <descriptorRefs>
-              <descriptorRef>jar-with-dependencies</descriptorRef>
-            </descriptorRefs>
-	    <attach>true</attach>
-          </configuration>
-          <executions>
-            <execution>
-              <id>make-assembly</id> 
-              <phase>package</phase> 
-              <goals>
-                <goal>single</goal>
-              </goals>
-            </execution>
-          </executions>
-        </plugin>
-      </plugins>
-    </build>
-    -->
-<!--
-    <distributionManagement>
-      <repository>
-	<id>ssh-clasweb</id>
-	<url>scpexe://clas12@jlabl1.jlab.org/group/clas/www/clasweb/html/jhep/maven</url>
-      </repository>
-    </distributionManagement>    
--->
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-	<revision>0.0.4</revision>
-	<version>1.1.1</version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
+    <dependencies>
+        <dependency>
+            <groupId>j4np</groupId>
+            <artifactId>j4np-ui</artifactId>
+            <version>1.1.1</version>
+        </dependency>
+    </dependencies>
+
+    <repositories>
+        <repository>
+            <id>clas12-maven</id>
+            <url>https://clasweb.jlab.org/clas12maven/j4np/maven</url>
+        </repository>
+    </repositories>
+
+    <build>
+        <plugins>
+            <!-- Simplified shade plugin configuration -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.4.1</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <transformers>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>twig.demo.RunDemo</mainClass>
+                                </transformer>
+                            </transformers>
+                            <filters>
+                                <filter>
+                                    <artifact>*:*</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/*.SF</exclude>
+                                        <exclude>META-INF/*.DSA</exclude>
+                                        <exclude>META-INF/*.RSA</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>

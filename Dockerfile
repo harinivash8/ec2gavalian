@@ -1,4 +1,4 @@
-# Use Eclipse Temurin JRE 21 on Alpine
+
 FROM eclipse-temurin:21-jdk-alpine
 
 # Install required tools: wget, git, tar, and maven
@@ -18,8 +18,8 @@ RUN mvn clean package -DskipTests
 WORKDIR /opt
 RUN mkdir tomcat
 WORKDIR /opt/tomcat
-RUN wget https://www-eu.apache.org/dist/tomcat/tomcat-8/v8.5.40/bin/apache-tomcat-8.5.40.tar.gz
-RUN tar xvfz apache-tomcat-8.5.40.tar.gz --strip-components=1
+RUN wget https://dlcdn.apache.org/tomcat/tomcat-10/v10.1.39/bin/apache-tomcat-10.1.39.tar.gz
+RUN tar -xzf apache-tomcat-10.1.39.tar.gz --strip-components=1
 
 # Copy WAR or JAR file to Tomcat's webapps directory (assuming WAR)
 RUN cp /opt/ec2gavalian/target/*.war /opt/tomcat/webapps/ec2gavalian.war

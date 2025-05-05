@@ -1,5 +1,5 @@
 # Use Eclipse Temurin JRE 21 on Alpine
-FROM eclipse-temurin:21-jre-alpine
+FROM eclipse-temurin:21-jdk-alpine
 
 # Install required tools: wget, git, tar, and maven
 RUN apk add --no-cache wget git tar maven

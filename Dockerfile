@@ -22,7 +22,7 @@ RUN wget https://dlcdn.apache.org/tomcat/tomcat-11/v11.0.6/bin/apache-tomcat-11.
 RUN tar -xzf apache-tomcat-11.0.6.tar.gz --strip-components=1
 
 # Copy WAR or JAR file to Tomcat's webapps directory (assuming WAR)
-RUN cp /opt/ec2gavalian/target/*.war /opt/tomcat/webapps/ec2gavalian.war
+RUN cp /opt/ec2gavalian/target/*.jar /opt/tomcat/webapps/ec2gavalian.jar
 
 # Expose port 8080
 EXPOSE 8080
